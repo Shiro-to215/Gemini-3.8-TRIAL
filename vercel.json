@@ -5,6 +5,14 @@
       "use": "@vercel/python"
     }
   ],
+  "functions": {
+    "api/index.py": {
+      "includeFiles": [
+        "frontend/**",
+        "backend/**"
+      ]
+    }
+  },
   "routes": [
     {
       "src": "/(.*)",
