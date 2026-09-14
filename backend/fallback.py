@@ -39,6 +39,8 @@ class FallbackManager:
                         if delay:
                             self.sleeper(delay)
                         continue
+                    if error.reason == "unknown":
+                        raise
                     self.model_manager.mark_unavailable(model, error.message)
                     switched = True
                     break

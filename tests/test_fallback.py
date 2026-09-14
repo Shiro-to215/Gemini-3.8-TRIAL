@@ -25,3 +25,14 @@ def test_all_models_unavailable_returns_controlled_error(database):
     manager.mark_unavailable("model-a", "quota", 3600)
     with pytest.raises(AllModelsUnavailable):
         FallbackManager(manager).generate(lambda _: "never")
+
+
+def test_unknown_connection_error_does_not_disable_model(database):
+    manager = ModelManager(database, ["model-a", "model-b"])
+
+    def request(_):
+        raise GeminiRequestError(None, "unknown", message="connection failed")
+
+    with pytest.raises(GeminiRequestError):
+        FallbackManager(manager, sleeper=lambda _: None).generate(request)
+    assert manager.available_models() == ["model-a", "model-b"]

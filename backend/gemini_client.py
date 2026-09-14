@@ -58,7 +58,12 @@ class GeminiClient:
 
     def _translate_error(self, error: Exception) -> GeminiRequestError:
         response = getattr(error, "response", None)
-        status = getattr(error, "status_code", None) or getattr(response, "status_code", None)
+        status = (
+            getattr(error, "status_code", None)
+            or getattr(error, "code", None)
+            or getattr(response, "status_code", None)
+            or getattr(response, "code", None)
+        )
         status = int(status) if status is not None else None
         text = _error_text(error)
         retry_after = None
@@ -73,6 +78,9 @@ class GeminiClient:
         if retry_after is None and retry_match:
             retry_after = float(retry_match.group(1))
         lowered = text.lower()
+        details = getattr(error, "details", None)
+        if details:
+            lowered += " " + str(details).lower()
         if status in (401, 403) or any(value in lowered for value in ("api key", "unauthenticated", "permission denied")):
             reason = "authentication"
         elif status == 429 or any(value in lowered for value in ("resource_exhausted", "quota", "rate limit", "too many requests")):

@@ -35,7 +35,7 @@ python -m py_compile backend/*.py
 
 ## モデル設定とFallback
 
-`GEMINI_MODELS` にカンマ区切りで優先順位を指定します。初期値は `gemini-2.5-flash`、`gemini-2.5-flash-lite`、`gemini-2.0-flash`、`gemini-2.0-flash-lite` です。実際に利用できるモデルはGoogleの公式ドキュメントとプロジェクトの契約状況に依存するため、必要に応じて `.env` の1か所だけを変更してください。
+`GEMINI_MODELS` にカンマ区切りで優先順位を指定します。初期値は `gemini-3.8-flash`、`gemini-3.7-flash`、`gemini-3.6-flash`、`gemini-3.5-flash` です。実際に利用できるモデルはGoogleの公式ドキュメントとプロジェクトの契約状況に依存するため、必要に応じて `.env` の1か所だけを変更してください。
 
 通常は最初に利用可能なモデルを使い続けます。429やquota、5xxの場合は有限回リトライし、Retry-Afterが示される短い待機は尊重します。解消しない場合はモデルを一定時間 unavailable としてSQLiteへ保存し、次のモデルへ切り替えます。401/403、リクエスト不正、設定不備ではモデルを切り替えず、原因をユーザーへ安全な文面で返します。日次利用回数を自前で推測したり、日本時間0時に状態をリセットしたりはしません。
 
