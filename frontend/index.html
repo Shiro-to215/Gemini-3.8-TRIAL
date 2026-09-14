@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gemini Desk</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">✦</span><span>Gemini Desk</span></div>
+      <button class="new-chat" id="new-chat">＋ 新しい会話</button>
+      <div class="section-label">会話履歴</div>
+      <nav class="conversation-list" id="conversation-list" aria-label="会話履歴"></nav>
+      <div class="sidebar-bottom">
+        <button class="secondary-button" id="memory-button">◈ Memory</button>
+        <div class="connection" id="connection-status"><span class="status-dot"></span>接続を確認中</div>
+      </div>
+    </aside>
+
+    <main class="chat-panel">
+      <header class="topbar">
+        <button class="icon-button mobile-only" id="menu-button" aria-label="メニュー">☰</button>
+        <div class="topbar-title"><span id="conversation-title">新しい会話</span><small id="model-label">モデルを確認中</small></div>
+        <button class="icon-button" id="delete-chat" aria-label="現在の会話を削除" title="現在の会話を削除">⌫</button>
+      </header>
+      <section class="messages" id="messages" aria-live="polite">
+        <div class="welcome" id="welcome">
+          <div class="welcome-symbol">✦</div>
+          <h1>今日は何を考えますか？</h1>
+          <p>Geminiと、落ち着いて続けられる会話を始めましょう。</p>
+        </div>
+      </section>
+      <div class="composer-wrap">
+        <div class="notice" id="notice" role="status"></div>
+        <form class="composer" id="composer">
+          <textarea id="message-input" rows="1" placeholder="メッセージを入力" aria-label="メッセージ"></textarea>
+          <button class="send-button" id="send-button" type="submit" aria-label="送信" title="送信">↑</button>
+        </form>
+        <div class="composer-hint">Enterで送信 · Shift + Enterで改行</div>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="memory-dialog" id="memory-dialog">
+    <div class="dialog-header"><h2>Long-term Memory</h2><button class="icon-button" id="close-memory" aria-label="閉じる">×</button></div>
+    <p class="dialog-description">長期的に役立つ情報だけを保存します。会話履歴とは別に管理されます。</p>
+    <form class="memory-form" id="memory-form"><input id="memory-input" maxlength="2000" placeholder="例：回答は日本語で、簡潔にしてほしい" required><button type="submit">追加</button></form>
+    <div class="memory-list" id="memory-list"></div>
+  </dialog>
+  <script src="/static/app.js"></script>
+</body>
+</html>
