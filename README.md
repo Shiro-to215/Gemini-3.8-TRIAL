@@ -24,6 +24,23 @@ uvicorn backend.main:app --reload
 
 ブラウザで `http://127.0.0.1:8000` を開いてください。APIキーはFastAPIからGeminiへ送るだけで、ブラウザへ返しません。
 
+## Vercelへの公開
+
+このリポジトリはVercelのPythonランタイム用設定を含んでいます。
+
+[VercelへImportして公開する](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FShiro-to215%2FGemini-3.8-TRIAL)
+
+1. VercelにGitHubアカウントでログインします。
+2. `Add New...` → `Project` → `Import Git Repository` からこのGitHubリポジトリを選びます。
+3. Environment Variablesに `GEMINI_API_KEY` を登録します。値はGoogle AI StudioのAPIキーです。
+4. `Deploy` を実行します。
+
+デプロイ後に表示される `https://...vercel.app` がアプリのURLです。ブラウザからGeminiへ直接アクセスせず、Vercel上のFastAPIがAPIキーを保持します。
+
+Vercelのサーバーレス環境ではローカルSQLiteを恒久保存できません。現在は動作確認用として `/tmp/gemini-chat.db` を使用するため、同じインスタンスが生きている間はMemoryと会話を保持できますが、再デプロイやインスタンス交換で消える可能性があります。Memoryと会話を確実に残す公開版には、Vercel Postgres、Supabase、Tursoなどの外部SQLite互換DBへの移行が必要です。
+
+GitHub Pagesは静的ファイルしか実行できず、FastAPI、Gemini APIキー、SQLiteを動かせません。そのためGitHub PagesのURLだけでこのアプリを完結させることはできません。公開URLとしては、Backend込みのVercel URLを使用してください。
+
 ## テスト
 
 ```bash

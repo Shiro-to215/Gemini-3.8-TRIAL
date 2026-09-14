@@ -18,7 +18,10 @@ DEFAULT_SYSTEM_INSTRUCTION = """あなたは長期的な会話を行うアシス
 @dataclass(frozen=True)
 class Settings:
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    database_path: str = os.getenv("DATABASE_PATH", str(ROOT_DIR / "data" / "chat.db"))
+    database_path: str = os.getenv(
+        "DATABASE_PATH",
+        "/tmp/gemini-chat.db" if os.getenv("VERCEL") else str(ROOT_DIR / "data" / "chat.db"),
+    )
     system_instruction: str = os.getenv("SYSTEM_INSTRUCTION", DEFAULT_SYSTEM_INSTRUCTION)
     request_timeout: float = float(os.getenv("GEMINI_TIMEOUT_SECONDS", "45"))
     model_cooldown_seconds: int = int(os.getenv("MODEL_COOLDOWN_SECONDS", "3600"))
